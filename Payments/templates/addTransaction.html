@@ -1,0 +1,91 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <div id="page-content">
+                    
+					<div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add new Transaction</h3>
+                                </div>
+                    
+                                <!--Block Styled Form -->
+                                <!--===================================================-->
+                                <form enctype="multipart/form-data" action="{% url 'AddTransaction' %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Name</label>
+                                                    <select style="width:100%" class="js-example-basic-single" name="user_id" required>
+                                                        <option value="">Select Receiver Name</option> 
+                                                     {% for user in users %}
+ 
+                                                        <option value="{{user.id}}">{{user.name}}</option> 
+                                                     {% endfor %}
+                                                        
+                                                     </select> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                    
+                                            
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Send (EUR)</label>
+                                                    <input type="number" class="form-control" name="Amount"tel  max = {{balance}} min = 1 required> 
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Converter</label>
+                                                    <select style="width:100%" class="js-example-basic-single" name="Currency" required>
+                                                        <option value="">Select Currency</option>    
+                                                        <option value="RWF">RWF</option>    
+                                                        <option value="NGN">NGN</option>    
+                                                        <option value="USD">USD</option>    
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Receipts get in usd</label>
+                                                    <input type="tel" class="form-control" > 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <button class="btn btn-block btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <!--===================================================-->
+                                <!--End Block Styled Form -->
+                    
+                            </div>
+					
+					
+					
+					
+					
+					
+					
+                </div>
+<script>
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+
+</script>
+{% endblock content%}
