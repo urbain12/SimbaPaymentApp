@@ -44,24 +44,24 @@
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Send (EUR)</label>
-                                                    <input type="number" class="form-control" name="Amount"tel  max = {{balance}} min = 1 required> 
+                                                    <input id="from" type="number" class="form-control" name="Amount"tel  max = {{balance}} min = 1 required> 
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Converter</label>
-                                                    <select style="width:100%" class="js-example-basic-single" name="Currency" required>
-                                                        <option value="">Select Currency</option>    
+                                                    <select id="currency" style="width:100%;height:30px"  name="Currency" required>
                                                         <option value="RWF">RWF</option>    
                                                         <option value="NGN">NGN</option>    
                                                         <option value="USD">USD</option>    
                                                     </select>
                                                 </div>
                                             </div>
+                                            <input type="number" class="form-control" name="curr" id="curr" style="display:None">
                                             <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Receipts get in usd</label>
-                                                    <input type="tel" class="form-control" > 
+                                                    <input type="number" id="to" class="form-control" > 
                                                 </div>
                                             </div>
                                         </div>
@@ -88,4 +88,31 @@ $(document).ready(function() {
 });
 
 </script>
+<script>
+    window.onload = function() {
+        var curr=  gettingPost('RWF')
+      curr.then((value)=>document.getElementById("curr").value=value)
+    };
+    document.getElementById("currency").addEventListener("change", function(){
+      document.getElementById("from").value=0;
+      document.getElementById("to").value=0;
+      var curr=  gettingPost(this.value)
+      curr.then((value)=>document.getElementById("curr").value=value)
+      
+    });
+    document.getElementById("from").addEventListener("input", function(){
+    document.getElementById("to").value=this.value*document.getElementById("curr").value;
+    });
+
+
+    const gettingPost = async (curr) => {
+  const url = 'http://data.fixer.io/api/latest?access_key=a1f1b491855beb6674c02c7ee093a893&format=1';
+  const res = await fetch(url);
+  const posts_ = await res.json();
+  const post = posts_.rates[curr]
+  return post
+
+};
+   
+    </script>
 {% endblock content%}
