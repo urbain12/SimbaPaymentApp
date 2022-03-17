@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content%}
+{% load humanize %}
 
  <div id="page-content">
                     
@@ -51,7 +52,7 @@
                                             <td>{{Trans.id}}</td>
                                             <td>{{Trans.From.name}}</td>
                                             <td>{{Trans.To.name}}</td>
-                                            <td style="color:green">{{Trans.Amount}}</td>
+                                            <td style="color:green">{{Trans.Amount|intcomma}}</td>
                                             <td>{{Trans.Currency}}</td>
                                             <td>{{Trans.created_at}}</td>
                                             <td>{{Trans.Update_at}}</td>

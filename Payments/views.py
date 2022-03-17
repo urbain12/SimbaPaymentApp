@@ -27,10 +27,12 @@ def signup(request):
             user1 = User.objects.get(email=request.POST['email'])
             return render(request, 'Login.html', {'error': 'The Email is already Please log in.'})
         except User.DoesNotExist:
+            bal= 1000
             user = User.objects.create_user(
             email=request.POST['email'],
             name=request.POST['name'],
-            password=request.POST['password'])
+            password=request.POST['password'],
+            balance =bal)
             return render(request, 'Login.html',{'success': 'Your are successfuly registered Please log in.'})
 
 def index(request):
@@ -56,6 +58,8 @@ def logout(request):
 def Dashboard(request):
     userdata = User.objects.get(id=request.user.id)
     balance = userdata.balance
+    zar = int(balance*16.52)
+    usd =  int(balance*1.11)
     received=Transactions.objects.filter(To=request.user.id)
     sent=Transactions.objects.filter(From=request.user.id)
     amount_received=sum([int(trans.Amount)
@@ -65,6 +69,8 @@ def Dashboard(request):
     return render(request, 'dashboard.html',
     {
     'balance':balance,
+    'zar':zar,
+    'usd':usd,
     'amount_received':amount_received,
     'amount_sent':amount_sent
     })
@@ -72,7 +78,10 @@ def Dashboard(request):
     
 @login_required(login_url='/index')
 def Transaction(request):
-    allTransaction = Transactions.objects.all().order_by('-id')
+    userdata = User.objects.get(id=request.user.id)
+    allTransaction = Transactions.objects.filter(From=userdata.id)
+    allTransaction1 = Transactions.objects.filter(To=userdata.id)
+    usertrans = allTransaction | allTransaction1
     search_query = request.GET.get('search', '')
     if search_query:
         allTransaction = Transactions.objects.filter(
@@ -80,7 +89,7 @@ def Transaction(request):
     paginator = Paginator(allTransaction, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'Transaction.html', {'allTransaction': allTransaction, 'page_obj': page_obj})
+    return render(request, 'Transaction.html', {'usertrans': usertrans, 'page_obj': page_obj})
     
     
     

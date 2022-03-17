@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255, null=True, blank=True)
-    balance = models.IntegerField(null=True, blank=True,default=1000)
+    balance = models.IntegerField(null=True, blank=True)
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)

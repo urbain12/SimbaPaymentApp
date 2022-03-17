@@ -11,6 +11,26 @@
 <!-- Latest compiled and minified JavaScript -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<Style>
+    .result {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .rate{
+   
+        color: #5f2419;    
+        width: 500px;
+        height: 35px;
+        border-radius: 15px   ;
+        border-radius: 35px;
+        font-weight: 500;
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+</Style>
  <div id="page-content">
                     
 					<div class="panel">
@@ -38,33 +58,35 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                    
-                                            
-                                            <div class="col-sm-4">
+                                        <div class="row">  
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Send (EUR)</label>
-                                                    <input id="from" type="number" class="form-control" name="Amount"tel  max = {{balance}} min = 1 required> 
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Converter</label>
-                                                    <select id="currency" style="width:100%;height:30px"  name="Currency" required>
-                                                        <option value="RWF">RWF</option>    
-                                                        <option value="NGN">NGN</option>    
-                                                        <option value="USD">USD</option>    
+                                                    <label class="control-label">You send</label>
+                                                    <select  style="width:100%;height:30px" id="input_currency" required>
+                                                        <option value="ZAR">ZAR</option>
+                                                        <option value="USD">USD</option>
+                                                        <option option value="EUR" selected>EUR</option>    
                                                     </select>
+                                                   <input  type="number" class="form-control" name="Amount" value="1"  max = {{balance}} min = 1 placeholder="0.00" id="input_amount" required>
                                                 </div>
                                             </div>
-                                            <input type="number" class="form-control" name="curr" id="curr" style="display:None">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Receipts get in usd</label>
-                                                    <input type="number" id="to" class="form-control" > 
+                                                    <label class="control-label">Recipient gets</label>
+                                                    <select  style="width:100%;height:30px"  name="Currency" id="output_currency" required>
+                                                        <option value="ZAR">ZAR</option>
+                                                        <option value="EUR">EUR</option>
+                                                        <option value="USD" selected>USD</option>    
+                                                    </select>
+                                                    <input type="text" class="form-control" name="" id="output_amount" placeholder="0"/>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="result">
+        
+                                        <div class="rate" id="rate"></div>
+                        
                                     </div>
                                     <div class="panel-footer text-right">
                                         <button class="btn btn-block btn-success" type="submit">Submit</button>
@@ -88,31 +110,42 @@ $(document).ready(function() {
 });
 
 </script>
+
 <script>
-    window.onload = function() {
-        var curr=  gettingPost('RWF')
-      curr.then((value)=>document.getElementById("curr").value=value)
-    };
-    document.getElementById("currency").addEventListener("change", function(){
-      document.getElementById("from").value=0;
-      document.getElementById("to").value=0;
-      var curr=  gettingPost(this.value)
-      curr.then((value)=>document.getElementById("curr").value=value)
-      
-    });
-    document.getElementById("from").addEventListener("input", function(){
-    document.getElementById("to").value=this.value*document.getElementById("curr").value;
-    });
+    
+    const input_currency = document.querySelector('#input_currency');
+const output_currency = document.querySelector('#output_currency');
+const input_amount = document.querySelector('#input_amount');
+const output_amount = document.querySelector('#output_amount');
+const exchange = document.querySelector('#exchange');
+const rate = document.querySelector('#rate');
 
+input_currency.addEventListener('change', compute);
+output_currency.addEventListener('change', compute);
+input_amount.addEventListener('input', compute);
+output_amount.addEventListener('input', compute);
 
-    const gettingPost = async (curr) => {
-  const url = 'http://data.fixer.io/api/latest?access_key=a1f1b491855beb6674c02c7ee093a893&format=1';
-  const res = await fetch(url);
-  const posts_ = await res.json();
-  const post = posts_.rates[curr]
-  return post
+exchange.addEventListener('click', ()=>{
+    const temp = input_currency.value;
+    input_currency.value = output_currency.value;
+    output_currency.value= temp;
+    compute();
+});
 
-};
-   
+function compute(){
+    const input_currency1 = input_currency.value;
+    const output_currency1 = output_currency.value;
+
+    fetch(`https://api.exchangerate-api.com/v4/latest/${input_currency1}`)
+    .then(res => res.json())
+    .then(res => {
+        const new_rate = res.rates[output_currency1];
+        rate.innerText = `1 ${input_currency1} = ${new_rate} ${output_currency1}`
+        output_amount.value = (input_amount.value * new_rate).toFixed(2);
+    })
+}
+
+compute();
+    
     </script>
 {% endblock content%}

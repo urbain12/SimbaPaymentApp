@@ -15,16 +15,27 @@
 					                <br>
 								<div class="all box">
 									<div class='row text-center' style="margin-top:30px">
-									<div class="col-md-12"  >
+									<div class="col-md-4"  >
 					                    <div class="panel panel-warning panel-colorful media middle pad-all">
-					                        <div class="media-left">
-					                            <div class="pad-hor">
-					                                <i class="fa fa-money icon-3x"></i>
-					                            </div>
-					                        </div>
 					                        <div class="media-body">
-										<p class="text-2x mar-no text-semibold">{{balance}} EUR</p>
-					                            <p class="mar-no text-2x">Balance</p>
+										<p class="text-2x mar-no text-semibold">{{balance|intcomma}}</p>
+										<p class="mar-no text-1x">Balance in EUR</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-4"  >
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-body">
+										<p class="text-2x mar-no text-semibold">{{zar|intcomma}}</p>
+										<p class="mar-no text-1x">Balance in ZAR</p>
+					                        </div>
+					                    </div>
+					                </div>
+									<div class="col-md-4"  >
+					                    <div class="panel panel-warning panel-colorful media middle pad-all">
+					                        <div class="media-body">
+										<p class="text-2x mar-no text-semibold">{{usd|intcomma}}</p>
+										<p class="mar-no text-1x">Balance IN USD</p>
 					                        </div>
 					                    </div>
 					                </div>
@@ -39,7 +50,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_received}} EUR</p>
+					                            <p class="text-2x mar-no text-semibold">{{amount_received|intcomma}} EUR</p>
 					                            <p class="mar-no text-2x">Received</p>
 					                        </div>
 					                    </div>
@@ -52,7 +63,7 @@
 					                            </div>
 					                        </div>
 					                        <div class="media-body">
-					                            <p class="text-2x mar-no text-semibold">{{amount_sent}} EUR</p>
+					                            <p class="text-2x mar-no text-semibold">{{amount_sent|intcomma}} EUR</p>
 					                            <p class="mar-no text-2x">Sent</p>
 					                        </div>
 					                    </div>
