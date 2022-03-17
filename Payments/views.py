@@ -43,7 +43,7 @@ def index(request):
             django_login(request, customer)
             return redirect('Dashboard')
         else:
-            return render(request, 'Login.html', {'error': 'Your Email or Password are incorrect.'})
+            return render(request, 'Login.html', {'error': 'Your Email or Password are incorrect. '})
     else:
         return render(request, 'Login.html')
 
