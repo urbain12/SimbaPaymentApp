@@ -118,4 +118,23 @@ def AddTransaction(request):
         balance = userdata.balance
         users=User.objects.exclude(id = request.user.id)
         return render(request,'addTransaction.html',{'users':users,'balance':balance})
+
+
+
+@login_required(login_url='/login')
+def changeuserpassword(request, userID):
+    if request.method == 'POST':
+        if request.POST['newpassword'] == request.POST['confirmpassword']:
+            user = User.objects.get(id=userID)
+            if user.check_password(request.POST['password']):
+                password = request.POST['newpassword']
+                user.set_password(password)
+            user.save()
+            return redirect('index')
+        else:
+            alert = True
+            return render(request, 'Changepassword.html', {'alert': alert})
+    else:
+        alert = False
+        return render(request, 'Changepassword.html', {'alert': alert})
     

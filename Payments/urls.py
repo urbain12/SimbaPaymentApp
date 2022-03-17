@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/',logout,name='logout'),
     path('Dashboard/',Dashboard,name='Dashboard'),
     path('Transactions/',Transaction,name='Transactions'),
+    path('changeuserpassword/<int:userID>',changeuserpassword,name='changeuserpassword'),
     path('AddTransaction/',AddTransaction,name='AddTransaction'),
     
    ]
