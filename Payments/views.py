@@ -84,9 +84,15 @@ def Transaction(request):
     usertrans = allTransaction | allTransaction1
     search_query = request.GET.get('search', '')
     if search_query:
-        allTransaction = Transactions.objects.filter(
+        users = User.objects.filter(
             Q(name__icontains=search_query))
-    paginator = Paginator(allTransaction, 8)
+        users_ids=[]
+        for user in users:
+            users_ids.append(user.id)
+        alltrans=Transactions.objects.filter(From__in=users_ids)
+        alltrans1=Transactions.objects.filter(To__in=users_ids)
+        usertrans = alltrans | alltrans1
+    paginator = Paginator(usertrans, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'Transaction.html', {'usertrans': usertrans, 'page_obj': page_obj})
