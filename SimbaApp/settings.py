@@ -61,6 +61,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SimbaApp.urls'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
