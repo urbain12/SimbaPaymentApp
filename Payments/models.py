@@ -1,6 +1,5 @@
 from django.db import models
 import datetime
-from dateutil.relativedelta import *
 from django.db.models.base import Model
 from django.db.models.fields import CharField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
