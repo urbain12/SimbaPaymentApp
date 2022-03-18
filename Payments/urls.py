@@ -11,5 +11,6 @@ urlpatterns = [
     path('Transactions/',Transaction,name='Transactions'),
     path('changeuserpassword/<int:userID>',changeuserpassword,name='changeuserpassword'),
     path('AddTransaction/',AddTransaction,name='AddTransaction'),
+    url(r'^export/csv/$',export_Transaction, name='export_Transaction'),
     
    ]

@@ -1,6 +1,6 @@
 import json
-from datetime import timedelta
 from datetime import datetime
+from datetime import timedelta
 from django.http import HttpResponse, JsonResponse
 from dateutil.relativedelta import *
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,7 @@ import requests
 import xlwt
 import urllib3
 import os
+import csv
 from django.contrib import auth
 from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -143,4 +144,66 @@ def changeuserpassword(request, userID):
     else:
         alert = False
         return render(request, 'Changepassword.html', {'alert': alert})
+
+
+def export_Transaction(request):
+    today = datetime.datetime.today()
+    ondate=today.strftime("%Y-%m-%d %H:%M")
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="Transactions - {ondate}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+
+        'Simba Payment App'
+    ])
+    writer.writerow([
+
+        'Transactions Report'
+    ])
+    writer.writerow([
+
+        "Date"+' : '+today.strftime("%Y-%m-%d %H:%M")
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+        ''
+
+    ])
+    writer.writerow([
+
+        'ID',
+        'From',
+        'To',
+        'Amount',
+        "Currency",
+        "Created At",
+        "Updated At",
+        ])
+
+    userdata = User.objects.get(id=request.user.id)
+    allTransaction = Transactions.objects.filter(From=userdata.id)
+    allTransaction1 = Transactions.objects.filter(To=userdata.id)
+    usertransactions = allTransaction | allTransaction1
+    mytransactions = []
+    for tra in usertransactions:
+
+        my_trans = [
+            "SpC"+''+str(tra.id),
+            tra.From.name,
+            tra.To.name,
+            tra.Amount,
+            tra.Currency,
+            tra.created_at.strftime("%Y-%m-%d"),
+            tra.Update_at.strftime("%Y-%m-%d"),
+        ]
+        mytransactions.append(my_trans)
+    for user in mytransactions:
+        writer.writerow(user)
+
+    return response
     
