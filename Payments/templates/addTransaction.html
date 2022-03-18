@@ -140,7 +140,7 @@ function compute(){
     .then(res => res.json())
     .then(res => {
         const new_rate = res.rates[output_currency1];
-        rate.innerText = `1 ${input_currency1} = ${new_rate} ${output_currency1}`
+        rate.innerText = `Rate : 1 ${input_currency1} = ${new_rate} ${output_currency1}`
         output_amount.value = (input_amount.value * new_rate).toFixed(2);
     })
 }
