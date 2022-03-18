@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import django_heroku
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-vt#jgtbm!5&5a1^21vd87&29^$9s8v+2&bq$sr@-*v@11nx90a'
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -131,6 +136,8 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+django_heroku.settings(locals())
 
 SESSION_COOKIE_AGE = 7200
 SESSION_SAVE_EVERY_REQUEST = True
