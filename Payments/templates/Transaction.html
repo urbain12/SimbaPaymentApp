@@ -48,12 +48,20 @@
                                             
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody> 
                                     {% for Trans in page_obj %}
                                     <tr>
                                             <td>SpC{{Trans.id}}</td>
+                                            {% if Trans.From.name == request.user.name %}
+                                            <td>Me</td>
+                                            {% else %}
                                             <td>{{Trans.From.name}}</td>
+                                            {% endif %}
+                                            {% if Trans.To.name == request.user.name %}
+                                            <td>Me</td>
+                                            {% else %}
                                             <td>{{Trans.To.name}}</td>
+                                            {% endif %}
                                             <td style="color:green">{{Trans.Amount|intcomma}}</td>
                                             <td>{{Trans.Currency}}</td>
                                             <td>{{Trans.created_at}}</td>
