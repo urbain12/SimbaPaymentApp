@@ -1,1 +1,1 @@
-web: gunicorn Payments.wsgi
+web gunicorn SimbaApp.wsgi:application --log-file -
