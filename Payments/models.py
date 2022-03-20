@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, name=None, password=None, balance=None):
-        user = self.create_user(email, name="name", password=password, balance=balance,is_staff=True, is_admin=True)
+        user = self.create_user(email, name="name", password=password, balance=1000,is_staff=True, is_admin=True)
         return user
 
 
